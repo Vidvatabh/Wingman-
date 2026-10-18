@@ -222,7 +222,17 @@ private void analyzeConversation() {
             "Context: " + context.confidence + "%\n" +
             "Social pattern: " + social.confidence + "%"
     );
+ConversationMemoryEngine.MemoryAnalysis memory =
+        ConversationMemoryEngine.analyze(conversation);
 
+addSection("CONVERSATION MEMORY", memory.recurringTopics);
+addSection("CONVERSATION PATTERN", memory.conversationPattern);
+addSection("PREVIOUS CONTEXT", memory.previousContext);
+addSection("CONTINUITY ADVICE", memory.continuityAdvice);
+
+for (String detail : memory.keyDetails) {
+    addSection("KEY DETAIL", detail);
+}
     addSection("REPLY SUGGESTIONS", "");
 
     List<ResponseEngine.ReplySuggestion> suggestions =
