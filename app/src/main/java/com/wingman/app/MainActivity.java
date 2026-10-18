@@ -110,7 +110,13 @@ protected void onCreate(Bundle savedInstanceState) {
             "My Growth",
             "Track your practice and communication progress."
     );
-
+addCard(
+        "Conversation History",
+        "Revisit or delete conversations saved on this device.",
+        view -> startActivity(
+                new Intent(MainActivity.this, HistoryActivity.class)
+        )
+);
     TextView footer = new TextView(this);
     footer.setText("YOUR GOAL. YOUR PACE. YOUR CONNECTION.");
     footer.setTextColor(AppTheme.MUTED);
