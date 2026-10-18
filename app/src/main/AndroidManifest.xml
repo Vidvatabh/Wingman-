@@ -4,6 +4,12 @@
     android:theme="@android:style/Theme.Material.Light.NoActionBar"
     android:usesCleartextTraffic="false">
 
+    <!-- NEW CODE: ReplyActivity -->
+    <activity
+        android:name=".ReplyActivity"
+        android:exported="false" />
+
+    <!-- EXISTING CODE: MainActivity -->
     <activity
         android:name=".MainActivity"
         android:exported="true">
