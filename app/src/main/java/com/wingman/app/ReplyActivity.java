@@ -180,7 +180,19 @@ private void analyzeConversation() {
     }
 
     resultContainer.removeAllViews();
+boolean saved =
+        ConversationHistoryEngine.saveConversation(
+                this,
+                conversation
+        );
 
+if (!saved) {
+    Toast.makeText(
+            this,
+            "Conversation could not be saved.",
+            Toast.LENGTH_SHORT
+    ).show();
+}
     ContextEngine.Analysis context =
             ContextEngine.analyze(conversation);
 
