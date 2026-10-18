@@ -8,7 +8,9 @@
     <activity
         android:name=".ReplyActivity"
         android:exported="false" />
-
+<activity
+    android:name=".HistoryActivity"
+    android:exported="false" />
     <!-- EXISTING CODE: MainActivity -->
     <activity
         android:name=".MainActivity"
