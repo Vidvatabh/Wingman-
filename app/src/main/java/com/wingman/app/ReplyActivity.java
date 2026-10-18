@@ -222,8 +222,47 @@ private void analyzeConversation() {
             "Context: " + context.confidence + "%\n" +
             "Social pattern: " + social.confidence + "%"
     );
+String previousTopics =
+        PersistentMemoryEngine.getMemory(this, "last_topics");
+
 ConversationMemoryEngine.MemoryAnalysis memory =
         ConversationMemoryEngine.analyze(conversation);
+
+if (previousTopics != null) {
+    addSection("PREVIOUS SAVED TOPICS", previousTopics);
+} else {
+    addSection(
+            "SAVED MEMORY",
+            "No previous conversation context has been saved yet."
+    );
+}
+
+// Save current context for future analysis.
+PersistentMemoryEngine.saveMemory(
+        this,
+        "last_topics",
+        memory.recurringTopics
+);
+
+PersistentMemoryEngine.saveMemory(
+        this,
+        "last_pattern",
+        memory.conversationPattern
+);
+
+PersistentMemoryEngine.saveMemory(
+        this,
+        "last_context",
+        memory.previousContext
+);
+
+PersistentMemoryEngine.saveMemory(
+        this,
+        "last_message",
+        memory.keyDetails.isEmpty()
+                ? ""
+                : memory.keyDetails.get(0)
+);
 
 addSection("CONVERSATION MEMORY", memory.recurringTopics);
 addSection("CONVERSATION PATTERN", memory.conversationPattern);
