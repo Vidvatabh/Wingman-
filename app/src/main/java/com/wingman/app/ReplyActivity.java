@@ -38,7 +38,6 @@ public class ReplyActivity extends Activity {
         scroll.addView(root);
         setContentView(scroll);
 
-        // BRAND
         TextView brand = new TextView(this);
         brand.setText("W I N G M A N");
         brand.setTextColor(AppTheme.TEAL);
@@ -47,7 +46,6 @@ public class ReplyActivity extends Activity {
 
         root.addView(brand);
 
-        // HEADING
         TextView heading = AppComponents.createHeading(
                 this,
                 "Reply to a message"
@@ -62,11 +60,10 @@ public class ReplyActivity extends Activity {
 
         root.addView(heading);
 
-        // DESCRIPTION
         TextView description = new TextView(this);
         description.setText(
-                "Share the conversation. Understand the context " +
-                "and discover your next move."
+                "Understand the conversation. " +
+                "Discover your next move."
         );
         description.setTextColor(AppTheme.MUTED);
         description.setTextSize(14);
@@ -77,7 +74,6 @@ public class ReplyActivity extends Activity {
 
         root.addView(description);
 
-        // INPUT LABEL
         TextView label = new TextView(this);
         label.setText("YOUR CONVERSATION");
         label.setTextColor(AppTheme.TEAL);
@@ -93,10 +89,9 @@ public class ReplyActivity extends Activity {
 
         root.addView(label);
 
-        // CONVERSATION INPUT
         conversationInput = AppComponents.createInput(
                 this,
-                "Paste the conversation here..."
+                "Paste the full conversation here..."
         );
 
         conversationInput.setGravity(
@@ -115,10 +110,10 @@ public class ReplyActivity extends Activity {
 
         root.addView(conversationInput);
 
-        // HELPER TEXT
         TextView helper = new TextView(this);
         helper.setText(
-                "Wingman will consider the full conversation."
+                "Your conversation is processed by the " +
+                "current on-device rule-based engine."
         );
         helper.setTextColor(AppTheme.MUTED);
         helper.setTextSize(12);
@@ -132,7 +127,6 @@ public class ReplyActivity extends Activity {
 
         root.addView(helper);
 
-        // ANALYZE BUTTON
         root.addView(
                 AppComponents.createButton(
                         this,
@@ -141,7 +135,6 @@ public class ReplyActivity extends Activity {
                 )
         );
 
-        // RESULT CARD
         LinearLayout resultCard =
                 AppComponents.createCard(this);
 
@@ -149,7 +142,9 @@ public class ReplyActivity extends Activity {
                 (LinearLayout.LayoutParams)
                         resultCard.getLayoutParams();
 
-        resultParams.topMargin = AppTheme.dp(this, 24);
+        resultParams.topMargin =
+                AppTheme.dp(this, 24);
+
         resultCard.setLayoutParams(resultParams);
 
         TextView resultHeading = new TextView(this);
@@ -167,7 +162,7 @@ public class ReplyActivity extends Activity {
         resultText.setTextColor(AppTheme.MUTED);
         resultText.setTextSize(14);
         resultText.setLineSpacing(
-                AppTheme.dp(this, 4),
+                AppTheme.dp(this, 5),
                 1f
         );
 
@@ -198,14 +193,26 @@ public class ReplyActivity extends Activity {
             return;
         }
 
-        resultText.setText(
-                "Conversation received successfully.\n\n" +
-                "Length: " + conversation.length() +
-                " characters.\n\n" +
-                "AI analysis is not connected yet. " +
-                "This screen currently checks the input only."
-        );
+        ContextEngine.Analysis analysis =
+                ContextEngine.analyze(conversation);
 
+        String result =
+                "LATEST MESSAGE\n\n" +
+                analysis.latestMessage +
+                "\n\nCONVERSATION TONE\n\n" +
+                analysis.conversationTone +
+                "\n\nPOSSIBLE SIGNAL\n\n" +
+                analysis.possibleSignal +
+                "\n\nSUGGESTED NEXT MOVE\n\n" +
+                analysis.nextMove +
+                "\n\nWHY\n\n" +
+                analysis.explanation +
+                "\n\nRULE-BASED CONFIDENCE\n\n" +
+                analysis.confidence + "%" +
+                "\n\nNote: This is a basic rule-based " +
+                "estimate, not a prediction of someone's feelings.";
+
+        resultText.setText(result);
         resultText.setTextColor(AppTheme.WHITE);
     }
 }
